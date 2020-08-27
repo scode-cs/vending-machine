@@ -1,0 +1,10 @@
+server:
+  port: 9095
+
+spring:
+  application:
+    name: multi-mvn
+
+config:
+  user:
+    name: config-user
