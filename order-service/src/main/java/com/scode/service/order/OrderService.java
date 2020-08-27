@@ -13,6 +13,8 @@ import com.scode.persistence.entity.InventoryEntity;
 import com.scode.persistence.entity.ProductEntity;
 import com.scode.persistence.entity.PurchaseHistoryEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -50,7 +52,7 @@ public class OrderService implements OrderDomain {
 
         // DB Operation
         purchasePersistenceService.save(PurchaseHistoryEntity.builder().productId(orderModel.getProductId())
-                .purchasedAmount(orderModel.getQuantity()).purchasedAt(new Date()).purchasedBy("user").build());
+                .purchasedAmount(orderModel.getQuantity()).purchasedAt(new Date()).purchasedBy(getLoggedinUser()).build());
         inventoryPersistenceService.updateAvailableStock(inventoryEntity.getAvlStock() - orderModel.getQuantity(),
                 inventoryEntity.getProductId());
 
@@ -63,6 +65,16 @@ public class OrderService implements OrderDomain {
 
     private void invokeRefillNotification(ProductRefillModel productModel, Long percentage) {
         new Thread(() -> refillDomain.checkForForNotification(productModel, percentage)).start();
+    }
+
+    private String getLoggedinUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String loggedinUser = "";
+        if (principal instanceof UserDetails) {
+            loggedinUser = ((UserDetails)principal).getUsername();
+        }
+
+        return loggedinUser;
     }
 
 }

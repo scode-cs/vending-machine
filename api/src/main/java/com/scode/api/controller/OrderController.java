@@ -25,7 +25,6 @@ public class OrderController {
     @PostMapping("/v1")
     @ResponseStatus(HttpStatus.OK)
     public GenericProductResponse placeOrder(
-            @RequestHeader(required = false, name = "Authorization") String auth,
             @RequestBody OrderRequest orderRequest) {
         return genericProductModelResponseMapper.map(orderDomain.placeOrder(orderRequestModelMapper.map(orderRequest)));
     }

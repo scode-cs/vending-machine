@@ -14,6 +14,8 @@ import com.scode.persistence.entity.ProductEntity;
 import com.scode.persistence.entity.RefillHistoryEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -76,11 +78,21 @@ public class RefillService implements RefillDomain {
 
         // DB Operation
         refillPersistenceService.save(RefillHistoryEntity.builder().productId(refillModel.getProductId())
-                .refilledAmount(refillModel.getRefillQuantity()).refilledAt(new Date()).refilledBy("user").build());
+                .refilledAmount(refillModel.getRefillQuantity()).refilledAt(new Date()).refilledBy(getLoggedinUser()).build());
         inventoryPersistenceService.updateAvailableStock(inventoryEntity.getAvlStock()+refillModel.getRefillQuantity(),
                 inventoryEntity.getProductId());
 
         return GenericProductResponseModel.builder().productId(refillModel.getProductId())
                 .productName(productEntity.getName()).message("Successfully Refilled!").build();
+    }
+
+    private String getLoggedinUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String loggedinUser = "";
+        if (principal instanceof UserDetails) {
+            loggedinUser = ((UserDetails)principal).getUsername();
+        }
+
+        return loggedinUser;
     }
 }

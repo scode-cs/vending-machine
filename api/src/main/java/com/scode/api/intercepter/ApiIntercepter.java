@@ -1,7 +1,5 @@
 package com.scode.api.intercepter;
 
-import com.scode.api.constant.AuthExclusionUrls;
-import com.scode.api.dto.AuthDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -19,28 +17,7 @@ public class ApiIntercepter implements HandlerInterceptor {
     public boolean preHandle(
             HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         long startTime = System.currentTimeMillis();
-
-        String requestUri = request.getRequestURI();
-        String methodName = request.getMethod();
-        if ("OPTIONS".equalsIgnoreCase(methodName)) {
-            return true;
-        }
-
-        if (StringUtils.startsWithIgnoreCase(requestUri, "/api") && !StringUtils.startsWithIgnoreCase(requestUri, "/api/api")) {
-
-            String authHeader = request.getHeader("Authorization");
-            System.out.println(authHeader);
-
-            if (AuthExclusionUrls.list().contains(requestUri)) {
-                log.info("NA");
-            } else {
-                // Token Validation;
-
-                request.setAttribute("authDetails", AuthDTO.builder().userId("1001").userName("John Doe").role("Developer").build());
-            }
-            request.setAttribute("startTime", startTime);
-        }
-
+        request.setAttribute("startTime", startTime);
         return true;
     }
 

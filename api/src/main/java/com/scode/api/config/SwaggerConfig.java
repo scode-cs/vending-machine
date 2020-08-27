@@ -32,8 +32,8 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.regex("/api.*"))
                 .build()
-                .globalOperationParameters(globalHeaders())
-                .securitySchemes(Arrays.asList(apiKey()))
+//                .globalOperationParameters(globalHeaders())
+//                .securitySchemes(Arrays.asList(apiKey()))
                 .apiInfo(apiInfo());
     }
 
@@ -53,8 +53,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "My REST API",
-                "Some custom description of API.",
+                "Vending Machine API",
+                "Vending Machine description of API.",
                 "API TOS",
                 "Terms of service",
                 new Contact("John Doe", "www.example.com", "myeaddress@company.com"),

@@ -1,12 +1,9 @@
 package com.scode.api.controller;
 
 import com.scode.api.dto.RefillRequest;
-import com.scode.api.dto.request.OrderRequest;
 import com.scode.api.dto.request.mapper.RefillRequestModelMapper;
 import com.scode.api.dto.response.GenericProductResponse;
-import com.scode.api.dto.response.OrderResponse;
 import com.scode.api.dto.response.mapper.GenericProductModelResponseMapper;
-import com.scode.api.dto.response.mapper.OrderModelResponseMapper;
 import com.scode.domain.RefillDomain;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +22,7 @@ public class RefillController {
 
     @PutMapping("/v1")
     @ResponseStatus(HttpStatus.OK)
-    public GenericProductResponse placeOrder(
-            @RequestHeader(required = false, name = "Authorization") String auth,
-            @RequestBody RefillRequest refillRequest) {
+    public GenericProductResponse placeOrder(@RequestBody RefillRequest refillRequest) {
         return genericProductModelResponseMapper.map(refillDomain.refillOrder(refillRequestModelMapper.map(refillRequest)));
     }
 }
