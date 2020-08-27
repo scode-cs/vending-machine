@@ -1,9 +1,7 @@
 package com.scode.api.controller;
 
 import com.scode.api.dto.response.ProductResponse;
-import com.scode.api.dto.response.UserResponse;
 import com.scode.api.dto.response.mapper.ProductModelResponseMapper;
-import com.scode.api.dto.response.mapper.UserModelResponseMapper;
 import com.scode.domain.ProductDomain;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,15 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
-@Api(tags = "User Resources")
+@Api(tags = "Product Resources")
 public class ProductController {
 
     private final ProductDomain productDomain;
     private final ProductModelResponseMapper productModelResponseMapper;
 
-    @GetMapping
+    @GetMapping("/v1")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getAll(
             @RequestHeader(required = false, name = "Authorization") String auth) {
@@ -31,11 +29,11 @@ public class ProductController {
         return productModelResponseMapper.mapAllToResponse(productDomain.getAll());
     }
 
-//    @GetMapping("/{userId}")
+//    @GetMapping("/{productId}")
 //    @ResponseStatus(HttpStatus.OK)
 //    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT Token") })
-//    public UserResponse getUser(
-//            @PathVariable("userId") Integer userId) {
-//        return userModelResponseMapper.mapToResponse(productDomain.getUser(userId));
+//    public ProductResponse getUser(
+//            @PathVariable("productId") Long productId) {
+//        return productModelResponseMapper.mapToResponse(productDomain.get(productId));
 //    }
 }

@@ -1,12 +1,9 @@
 package com.scode.api.dto;
 
-import com.scode.api.dto.response.UserResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Objects;
 
 @Getter
 @Setter
