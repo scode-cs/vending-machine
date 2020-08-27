@@ -1,32 +1,33 @@
 package com.scode.api.controller;
 
+import com.scode.api.dto.RefillRequest;
 import com.scode.api.dto.request.OrderRequest;
-import com.scode.api.dto.request.mapper.OrderRequestModelMapper;
+import com.scode.api.dto.request.mapper.RefillRequestModelMapper;
 import com.scode.api.dto.response.GenericProductResponse;
 import com.scode.api.dto.response.OrderResponse;
 import com.scode.api.dto.response.mapper.GenericProductModelResponseMapper;
 import com.scode.api.dto.response.mapper.OrderModelResponseMapper;
-import com.scode.domain.OrderDomain;
+import com.scode.domain.RefillDomain;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/refill")
 @RequiredArgsConstructor
-@Api(tags = "Order Resources")
-public class OrderController {
+@Api(tags = "Refill Resources")
+public class RefillController {
 
-    private final OrderRequestModelMapper orderRequestModelMapper;
+    private final RefillDomain refillDomain;
+    private final RefillRequestModelMapper refillRequestModelMapper;
     private final GenericProductModelResponseMapper genericProductModelResponseMapper;
-    private final OrderDomain orderDomain;
 
-    @PostMapping("/v1")
+    @PutMapping("/v1")
     @ResponseStatus(HttpStatus.OK)
     public GenericProductResponse placeOrder(
             @RequestHeader(required = false, name = "Authorization") String auth,
-            @RequestBody OrderRequest orderRequest) {
-        return genericProductModelResponseMapper.map(orderDomain.placeOrder(orderRequestModelMapper.map(orderRequest)));
+            @RequestBody RefillRequest refillRequest) {
+        return genericProductModelResponseMapper.map(refillDomain.refillOrder(refillRequestModelMapper.map(refillRequest)));
     }
 }

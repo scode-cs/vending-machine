@@ -3,8 +3,8 @@ package com.scode.service.order;
 import com.scode.domain.OrderDomain;
 import com.scode.domain.RefillDomain;
 import com.scode.domain.exception.DomainBusinessException;
+import com.scode.domain.model.GenericProductResponseModel;
 import com.scode.domain.model.OrderModel;
-import com.scode.domain.model.OrderReponseModel;
 import com.scode.domain.model.ProductRefillModel;
 import com.scode.persistence.InventoryPersistenceService;
 import com.scode.persistence.ProductPersistenceService;
@@ -30,7 +30,7 @@ public class OrderService implements OrderDomain {
 
     @Override
     @Transactional(rollbackOn = DomainBusinessException.class)
-    public OrderReponseModel placeOrder(OrderModel orderModel) {
+    public GenericProductResponseModel placeOrder(OrderModel orderModel) {
 
         Optional<ProductEntity> productEntityOpt = productPersistenceService.findById(orderModel.getProductId());
 
@@ -57,10 +57,12 @@ public class OrderService implements OrderDomain {
         // Refill Notification
         invokeRefillNotification(productRefillModel, inventoryEntity.getRefillPercentage());
 
-        return OrderReponseModel.builder().message("Order successfully placed").build();
+        return GenericProductResponseModel.builder().productId(orderModel.getProductId())
+                .productName(productEntity.getName()).message("Order successfully placed!").build();
     }
 
     private void invokeRefillNotification(ProductRefillModel productModel, Long percentage) {
         new Thread(() -> refillDomain.checkForForNotification(productModel, percentage)).start();
     }
+
 }
