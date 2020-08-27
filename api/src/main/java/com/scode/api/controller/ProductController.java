@@ -1,6 +1,8 @@
 package com.scode.api.controller;
 
+import com.scode.api.dto.response.ProductResponse;
 import com.scode.api.dto.response.UserResponse;
+import com.scode.api.dto.response.mapper.ProductModelResponseMapper;
 import com.scode.api.dto.response.mapper.UserModelResponseMapper;
 import com.scode.domain.ProductDomain;
 import io.swagger.annotations.Api;
@@ -16,17 +18,17 @@ import java.util.List;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 @Api(tags = "User Resources")
-public class UserController {
+public class ProductController {
 
     private final ProductDomain productDomain;
-    private final UserModelResponseMapper userModelResponseMapper;
+    private final ProductModelResponseMapper productModelResponseMapper;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserResponse> getAll(
+    public List<ProductResponse> getAll(
             @RequestHeader(required = false, name = "Authorization") String auth) {
         System.out.println(auth);
-        return userModelResponseMapper.mapAllToResponse(productDomain.getAll());
+        return productModelResponseMapper.mapAllToResponse(productDomain.getAll());
     }
 
 //    @GetMapping("/{userId}")

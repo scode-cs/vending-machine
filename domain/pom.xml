@@ -28,6 +28,12 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.scode.persistence</groupId>
+            <artifactId>vending-machine-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Unit test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
