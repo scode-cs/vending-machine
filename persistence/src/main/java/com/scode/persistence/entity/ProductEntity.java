@@ -23,10 +23,14 @@ public class ProductEntity {
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     private Date createdAt;
 
     @CreatedBy
-    @Column(name = "created_by")
+    @Column(name = "CREATED_BY")
     private String createdBy;
+
+    @JoinColumn(name = "PRODUCT_ID", unique = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    private InventoryEntity inventoryEntity;
 }

@@ -3,6 +3,7 @@ package com.scode.api.handler;
 import com.scode.api.dto.response.ExceptionResponse;
 import com.scode.api.dto.response.GenericDetailedResponse;
 import com.scode.api.exception.BusinessException;
+import com.scode.domain.exception.DomainBusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,13 @@ public class ApiExceptionHandler {
     public ResponseEntity<ExceptionResponse> exception(BusinessException exception) {
         return ResponseEntity.status(exception.getExceptionResponse().getStatus())
                 .body(exception.getExceptionResponse());
+    }
+
+    @ExceptionHandler(DomainBusinessException.class)
+    public ResponseEntity<ExceptionResponse> exception(DomainBusinessException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
+                .body(ExceptionResponse.builder().status(HttpStatus.BAD_REQUEST)
+                        .message(exception.getMessage()).build());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

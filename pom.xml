@@ -31,6 +31,8 @@
 		<module>persistence</module>
 		<module>product-service</module>
 		<module>identity-service</module>
+		<module>order-service</module>
+		<module>refill-service</module>
 	</modules>
 
 	<dependencyManagement>

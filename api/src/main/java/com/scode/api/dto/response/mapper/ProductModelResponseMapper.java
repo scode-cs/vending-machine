@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel="spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductModelResponseMapper {
-    public List<ProductResponse> mapAllToResponse(List<ProductModel> userModel);
-    public ProductModel mapToResponse(ProductModel userModel);
+    public List<ProductResponse> mapAllToResponse(List<ProductModel> productModels);
+    public ProductModel mapToResponse(ProductModel productModel);
 }
 

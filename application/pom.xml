@@ -48,6 +48,16 @@
             <artifactId>vending-machine-service-identity</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.scode.service.order</groupId>
+            <artifactId>vending-machine-service-order</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.scode.service.refill</groupId>
+            <artifactId>vending-machine-service-refill</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

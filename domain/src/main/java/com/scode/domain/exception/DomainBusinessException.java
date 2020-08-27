@@ -1,4 +1,4 @@
-package com.scode.domain.model;
+package com.scode.domain.exception;
 
 import lombok.*;
 
@@ -7,6 +7,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderReponseModel {
+public class DomainBusinessException extends RuntimeException {
     private String message;
 }

@@ -1,10 +1,12 @@
 package com.scode.api.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@Setter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class ExceptionResponse {
     private HttpStatus status;

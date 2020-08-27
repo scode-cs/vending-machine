@@ -29,6 +29,7 @@ public class ProductController {
         return productModelResponseMapper.mapAllToResponse(productDomain.getAll());
     }
 
+
 //    @GetMapping("/{productId}")
 //    @ResponseStatus(HttpStatus.OK)
 //    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT Token") })
