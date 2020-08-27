@@ -6,12 +6,12 @@ import com.scode.domain.exception.DomainBusinessException;
 import com.scode.domain.model.OrderModel;
 import com.scode.domain.model.OrderReponseModel;
 import com.scode.domain.model.ProductRefillModel;
+import com.scode.persistence.InventoryPersistenceService;
+import com.scode.persistence.ProductPersistenceService;
+import com.scode.persistence.PurchasePersistenceService;
 import com.scode.persistence.entity.InventoryEntity;
 import com.scode.persistence.entity.ProductEntity;
 import com.scode.persistence.entity.PurchaseHistoryEntity;
-import com.scode.persistence.repository.InventoryRepository;
-import com.scode.persistence.repository.ProductRepository;
-import com.scode.persistence.repository.PurchaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +23,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderService implements OrderDomain {
 
-    private final ProductRepository productRepository;
-    private final InventoryRepository inventoryRepository;
-    private final PurchaseRepository purchaseRepository;
     private final RefillDomain refillDomain;
+    private final ProductPersistenceService productPersistenceService;
+    private final InventoryPersistenceService inventoryPersistenceService;
+    private final PurchasePersistenceService purchasePersistenceService;
 
     @Override
     @Transactional(rollbackOn = DomainBusinessException.class)
     public OrderReponseModel placeOrder(OrderModel orderModel) {
 
-        Optional<ProductEntity> productEntityOpt = productRepository.findById(orderModel.getProductId());
+        Optional<ProductEntity> productEntityOpt = productPersistenceService.findById(orderModel.getProductId());
 
         if (!productEntityOpt.isPresent()) {
             throw new DomainBusinessException("Invalid Product");
@@ -49,9 +49,9 @@ public class OrderService implements OrderDomain {
         }
 
         // DB Operation
-        purchaseRepository.save(PurchaseHistoryEntity.builder().productId(orderModel.getProductId())
+        purchasePersistenceService.save(PurchaseHistoryEntity.builder().productId(orderModel.getProductId())
                 .purchasedAmount(orderModel.getQuantity()).purchasedAt(new Date()).purchasedBy("user").build());
-        inventoryRepository.updateAvailableStock(inventoryEntity.getAvlStock() - orderModel.getQuantity(),
+        inventoryPersistenceService.updateAvailableStock(inventoryEntity.getAvlStock() - orderModel.getQuantity(),
                 inventoryEntity.getProductId());
 
         // Refill Notification

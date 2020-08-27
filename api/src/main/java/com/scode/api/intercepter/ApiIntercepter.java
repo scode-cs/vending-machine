@@ -34,14 +34,8 @@ public class ApiIntercepter implements HandlerInterceptor {
             if (AuthExclusionUrls.list().contains(requestUri)) {
                 log.info("NA");
             } else {
-//                String authToken = request.getHeader(ApiConstant.AUTH_HEADER_NAME);
-//                AuthValidationDTO authValidation = authTokenService.validate(authToken, requestUri, request.getMethod());
-//                if (!AuthTokenStatus.VALID.equals(authValidation.getAuthStatus())) {
-//                    throw new WcsApiException(new GenericResponse(authValidation.getHttpStatus().value(),
-//                            authValidation.getMessage()));
-//                } else {
-//                    request.setAttribute("authDetails", authValidation.getTokenConfig());
-//                }
+                // Token Validation;
+
                 request.setAttribute("authDetails", AuthDTO.builder().userId("1001").userName("John Doe").role("Developer").build());
             }
             request.setAttribute("startTime", startTime);
